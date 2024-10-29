@@ -14,8 +14,16 @@ const app     = express ()        ;
 
 app.use(bodyParser.urlencoded({extended:false}))
 
+app.listen(3000, () => {
+    console.log('Servidor executando com sucesso na porta 3000')
+})   
+
 //GET 
 app.get('/books', (req, res) => {
+    
+    db.find({}, (err, books) => {
+        res.json(books)
+    })
 
 })
 
@@ -28,7 +36,16 @@ app.post('/books', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('Servidor executando com sucesso na porta 3000')
-})                  
+//DELETE
+app.delete('/books/:id', (req, res) => {
+    db.remove({
+        _id:req.params.id
+    }, (err) => {
+        res.json({
+            success:true
+        })
+    })
+})
+
+               
 
